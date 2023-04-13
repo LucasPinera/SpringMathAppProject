@@ -3,6 +3,8 @@
 package Group2.Math.App;
 
 import Services.MathAppService;
+
+
 // I don't really know what these are and why they need to be there but it works.
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +21,7 @@ public class HelloController {
     @GetMapping("/")
     public String helloWorld() {
         // return "index"; will display the index.html file which is in the resources/templates folder.
-        return "index";
+        return "math";
 
     }
 
@@ -34,4 +36,10 @@ public class HelloController {
         // Redirect back to the root path ("/") to refresh the page with the updated content
         return "redirect:/";
     }
+
+    @GetMapping("/math")
+    public String math() {
+        return "math";
+    }
+
 }

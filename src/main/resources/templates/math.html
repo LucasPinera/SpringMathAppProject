@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Practice</title>
+  <style>
+        body {
+            background-color: lightblue;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .math-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 500px;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .option {
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            padding: 1rem;
+            flex: 1;
+            cursor: pointer;
+            user-select: none;
+        }
+        .option:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+<div class="math-container">
+  <h2 id="mathProblem">2 + 2 = ?</h2>
+  <div class="options">
+    <div class="option" onclick="chooseOption('a')">a) 3</div>
+    <div class="option" onclick="chooseOption('b')">b) 4</div>
+    <div class="option" onclick="chooseOption('c')">c) 5</div>
+    <div class="option" onclick="chooseOption('d')">d) 6</div>
+  </div>
+</div>
+
+<script>
+        function chooseOption(option) {
+            console.log("User chose option:", option);
+            // Send the user's choice to your Java class here
+        }
+    </script>
+</body>
+</html>
