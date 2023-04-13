@@ -1,0 +1,24 @@
+<!--So this is the hmtl document that will display our basic webpage
+ thymeleaf can help us design our webpage, idk how to use it but they say it's good-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Simple Paragraph with User Input</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Welcome to My Page</h1>
+<p id="paragraph" th:if="${userInput == null}">
+    This is a simple paragraph on my webpage.<br>
+    It consists of multiple lines of text.<br>
+    Thymeleaf is rendering this content.
+</p>
+<p id="paragraph" th:if="${userInput != null}" th:text="${userInput}">
+    <!-- Processed user input will be displayed here -->
+</p>
+<form id="userInputForm" th:action="@{/}" method="post">
+    <input type="text" id="userInput" name="userInput" placeholder="Enter your text here">
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>
