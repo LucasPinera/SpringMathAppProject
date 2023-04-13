@@ -3,7 +3,6 @@ I don't know how much of this we will change.
 Running this class will start the webpage. */
 package Group2.Math.App;
 
-import Services.MathAppService;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
