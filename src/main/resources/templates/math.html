@@ -44,18 +44,39 @@
 <div class="math-container">
   <h2 id="mathProblem">2 + 2 = ?</h2>
   <div class="options">
-    <div class="option" onclick="chooseOption('a')">a) 3</div>
-    <div class="option" onclick="chooseOption('b')">b) 4</div>
-    <div class="option" onclick="chooseOption('c')">c) 5</div>
-    <div class="option" onclick="chooseOption('d')">d) 6</div>
+<!--    <div class="option" onclick="chooseOption('a')">a) 3</div>-->
+<!--    <div class="option" onclick="chooseOption('b')">b) 4</div>-->
+<!--    <div class="option" onclick="chooseOption('c')">c) 5</div>-->
+<!--    <div class="option" onclick="chooseOption('d')">d) 6</div>-->
+    <button id="option-a" onclick="chooseOption('a')">Option A</button>
+    <button id="option-b" onclick="chooseOption('b')">Option B</button>
+    <button id="option-c" onclick="chooseOption('c')">Option C</button>
+    <button id="option-d" onclick="chooseOption('d')">Option D</button>
+
+
   </div>
 </div>
 
 <script>
-        function chooseOption(option) {
+function chooseOption(option) {
             console.log("User chose option:", option);
-            // Send the user's choice to your Java class here
+
+            // Send the user's choice to the backend
+            fetch('/process-choice', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `choice=${option}`
+            })
+            .then(response => response.text())
+            .then(result => {
+                console.log("Server response:", result);
+                // Update the page based on the server response (e.g., display a success message or the next question)
+            })
+            .catch(error => console.error("Error:", error));
         }
-    </script>
+
+</script>
 </body>
 </html>

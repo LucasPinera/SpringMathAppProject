@@ -1,6 +1,6 @@
 /* So this class is what is showing the webpage. Here is where we will have our html templates.
  */
-package Group2.Math.App;
+package Group2.Math.App.controllers;
 
 import Services.MathAppService;
 
