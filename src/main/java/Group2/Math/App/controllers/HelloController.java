@@ -21,7 +21,7 @@ public class HelloController {
     @GetMapping("/")
     public String helloWorld() {
         // return "index"; will display the index.html file which is in the resources/templates folder.
-        return "math";
+        return "math2";
 
     }
 
