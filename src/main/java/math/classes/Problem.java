@@ -3,9 +3,9 @@ package math.classes;
 
 public class Problem {
     private String problemText;
-    private String correctAnswer;
+    private int correctAnswer;
 
-    public Problem(String problemText, String correctAnswer) {
+    public Problem(String problemText, int correctAnswer) {
         this.problemText = problemText;
         this.correctAnswer = correctAnswer;
     }
@@ -20,11 +20,11 @@ public class Problem {
         this.problemText = problemText;
     }
 
-    public String getCorrectAnswer() {
+    public int getCorrectAnswer() {
         return correctAnswer;
     }
 
-    public void setCorrectAnswer(String correctAnswer) {
+    public void setCorrectAnswer(int correctAnswer) {
         this.correctAnswer = correctAnswer;
     }
 }

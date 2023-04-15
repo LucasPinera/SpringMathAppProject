@@ -6,7 +6,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <style>
     .result-box {
-      margin-bottom: 1rem;
+      position: absolute;
       display: none;
       padding: 1rem;
       border-radius: 1rem;
@@ -14,21 +14,13 @@
       font-weight: bold;
       text-align: center;
     }
-
-    .flex-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
   </style>
 </head>
 <body style="background-color: lightblue;">
 <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
   <div style="background-color: white; padding: 2rem; border-radius: 1rem; position: relative;">
-    <div class="flex-container">
-      <div id="result-box" class="result-box"></div>
-      <div id="problem-text" style="font-size: 1.5rem; margin-bottom: 1rem;"></div>
-    </div>
+    <div id="result-box" class="result-box"></div>
+    <div id="problem-text" style="font-size: 1.5rem; margin-bottom: 1rem;"></div>
     <div>
       <label>
         <input type="radio" name="answer" value="a">
@@ -51,10 +43,6 @@
     <button id="new-problem-button" onclick="fetchNewProblem()">New Problem</button>
   </div>
 </div>
-
-</body>
-</html>
-
 <script>
     function displayProblem(problem) {
         document.getElementById('problem-text').textContent = problem.problemText;
@@ -97,39 +85,38 @@
       }
     }
 
-   function submitAnswer() {
-    const answerInputs = document.getElementsByName('answer');
-    let selectedAnswer = null;
+    function submitAnswer() {
+      const answerInputs = document.getElementsByName('answer');
+      let selectedAnswer = null;
 
-    for (const input of answerInputs) {
-        if (input.checked) {
-            selectedAnswer = input.value;
-            break;
-        }
+      for (const input of answerInputs) {
+          if (input.checked) {
+              selectedAnswer = input.value;
+              break;
+          }
+      }
+
+      if (selectedAnswer === null) {
+          alert('Please select an answer');
+          return;
+      }
+
+      // Get the correct answer from the displayed choices
+      const correctAnswer = document.getElementById('choice-a').textContent.slice(3);
+
+      // Check if the selected answer is correct
+      if (selectedAnswer === 'a' && document.getElementById('choice-a').textContent.slice(3) == correctAnswer) {
+          alert('Correct!');
+      } else {
+          alert('Incorrect. The correct answer is: ' + correctAnswer);
+      }
+
+      // Clear the selected answer
+      for (const input of answerInputs) {
+          input.checked = false;
+      }
+
     }
-
-    if (selectedAnswer === null) {
-        alert('Please select an answer');
-        return;
-    }
-
-    // Get the correct answer from the displayed choices
-    const correctAnswer = document.getElementById('choice-a').textContent.slice(3);
-
-    // Check if the selected answer is correct
-    if (selectedAnswer === 'a' && document.getElementById('choice-a').textContent.slice(3) == correctAnswer) {
-        displayResult(true);
-    } else {
-        displayResult(false);
-    }
-
-    // Clear the selected answer
-    for (const input of answerInputs) {
-        input.checked = false;
-    }
-}
-
 </script>
 </body>
 </html>
-

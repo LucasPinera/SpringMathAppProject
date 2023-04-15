@@ -12,7 +12,9 @@ public class ProblemGenerator {
         int c = RANDOM.nextInt(10) + 1;
 
         String problemText = String.format("%d + %d * %d", a, b, c);
-        String correctAnswer = Integer.toString(a + b * c);
+        //String correctAnswer = Integer.toString(a + b * c);
+        int correctAnswer = a + b * c;
+
 
         return new Problem(problemText, correctAnswer);
     }

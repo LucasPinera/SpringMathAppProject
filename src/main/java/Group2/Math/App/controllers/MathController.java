@@ -1,7 +1,7 @@
 package Group2.Math.App.controllers;
 
 import math.classes.*;
-
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,7 +38,8 @@ public class MathController {
         // Return a response (e.g., success message, next question, or error message)
         return "Processed choice: " + choice;
     }
-    @GetMapping("/random-problem")
+    //@GetMapping("/random-problem")
+    @GetMapping(value = "/random-problem", produces = MediaType.APPLICATION_JSON_VALUE)
     public Problem getRandomProblem() {
         ProblemGenerator problemGenerator = new ProblemGenerator();
         return problemGenerator.generateProblem();
