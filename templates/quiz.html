@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Math Quiz - Score</title>
+    <title>Math Quiz</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,46 +23,38 @@
             width: 70%;
             max-width: 800px;
         }
+        form {
+            width: 100%;
+        }
         h1 {
             font-size: 32px;
             margin-bottom: 20px;
         }
-        p.score {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 20px;
+        p {
+            margin-bottom: 10px;
         }
         button {
             font-size: 18px;
             padding: 10px 20px;
-            margin: 10px;
+            margin-top: 20px;
         }
-        @keyframes grow {
-            0% {
-                transform: scale(1);
-            }
-            100% {
-                transform: scale(2);
-            }
-        }
-        .message {
-            animation: grow 2s ease-in-out infinite alternate;
+        .score {
+            font-size: 28px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Quiz Score</h1>
-        {% if score is not none %}
-            <p class="score">Your score is {{ score }}/10.</p>
-            {% if score < 7 %}
-                <p class="message">You Suck</p>
-            {% else %}
-                <p class="message">You Passed</p>
-            {% endif %}
-        {% endif %}
-        <a href="{{ url_for('quiz') }}"><button type="button">Retry Quiz</button></a>
-        <a href="{{ url_for('home') }}"><button type="button">Back to Home</button></a>
+        <h1>Math Quiz</h1>
+        <form method="POST">
+            {% for a, b, c, correct in questions %}
+                <input type="hidden" name="correct{{ loop.index }}" value="{{ correct }}">
+                <p>{{ a }} + {{ b }}x = {{ c }}, solve for x:</p>
+                <p>x = <input type="number" step="any" name="answer{{ loop.index }}" required></p>
+            {% endfor %}
+            <button type="submit">Submit</button>
+        </form>
     </div>
 </body>
 </html>
