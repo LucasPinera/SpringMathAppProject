@@ -49,9 +49,17 @@
         <p>Select difficulty level:</p>
         <select id="difficulty">
             <option value="easy">Easy</option>
+            <option value="hard">Hard</option>
         </select>
         <br>
+<!--        <button onclick="startQuiz">Start Quiz</button>-->
         <a href="{{ url_for('quiz') }}"><button>Start Quiz</button></a>
     </div>
+<!--<script>-->
+<!--    function startQuiz() {-->
+<!--    const difficulty = document.getElementById('difficulty').value;-->
+<!--    location.href = `/quiz?difficulty=${difficulty}`;-->
+<!--    }-->
+<!--</script>-->
 </body>
 </html>
