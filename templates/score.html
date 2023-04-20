@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Math Quiz - Score</title>
+    <script src="{{ url_for('static', filename='skycons.js') }}"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -48,10 +49,27 @@
         .message {
             animation: grow 2s ease-in-out infinite alternate;
         }
+        #rain {
+            width: 700px;
+            height: 300px;
+            position: left;
+            margin-top: -225px;
+        }
     </style>
+    <script>
+        function initRain(score) {
+            if (score < 7) {
+                var canvas = document.getElementById('rain');
+                var skycons = new Skycons({"color": "blue"});
+                skycons.add(canvas, "RAIN");
+                skycons.play();
+            }
+        }
+    </script>
 </head>
-<body>
+<body onload="initRain({{ score }})">
     <div class="container">
+        <canvas id="rain"></canvas>
         <h1>Quiz Score</h1>
         {% if score is not none %}
             <p class="score">Your score is {{ score }}/10.</p>

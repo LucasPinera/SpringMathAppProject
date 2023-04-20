@@ -15,9 +15,12 @@ def quiz():
     if request.method == 'POST':
         score = 0
         for i in range(1, 11):
-            answer = float(request.form[f'answer{i}'])
-            if round(answer, 2) == round(float(request.form[f'correct{i}']), 2):
+            user_answer_str = request.form[f'answer{i}']
+            user_answer = float(user_answer_str) if user_answer_str else None
+
+            if user_answer is not None and round(user_answer, 2) == round(float(request.form[f'correct{i}']), 2):
                 score += 1
+
         return render_template('score.html', score=score)
 
     x = sp.Symbol('x')
