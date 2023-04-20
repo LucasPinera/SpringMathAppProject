@@ -9,19 +9,25 @@ app = Flask(__name__)
 def home():
     return render_template('home.html')
 
+
 def generate_easy_question():
     a = random.randint(1, 10)
     b = random.randint(1, 10)
     x_value = random.randint(1, 10)
-    c = a + b * x_value
-    return a, b, c
+    c = round(a + b * x_value)
+    return a, b, c, x_value
+
 
 def generate_hard_question():
     a = random.randint(-10, 10)
     b = random.randint(-10, 10)
-    x_value = random.uniform(-10, 10)
-    c = round(a + b * x_value, 2)
-    return a, b, c
+    x_value = round(random.uniform(-10, 10), 1)
+    c = round(a + b * x_value)
+    return a, b, c, x_value
+
+
+
+
 
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
@@ -39,19 +45,13 @@ def quiz():
 
     x = sp.Symbol('x')
     questions = []
-    for _ in range(10):
-#        a = random.randint(1, 10)
-#        b = random.randint(1, 10)
-#        x_value = random.randint(1, 10)
-
+    while len(questions) < 10:
         if difficulty == "hard":
-            a, b, x_value = generate_hard_question()
+            a, b, c, x_value = generate_hard_question()
         else:
-            a, b, x_value = generate_easy_question()
+            a, b, c, x_value = generate_easy_question()
 
-        c = a + b * x_value
-        equation = a + b * x - c
-        correct = sp.solve(equation, x)[0]
+        correct = x_value
         questions.append((a, b, c, correct))
 
     return render_template('quiz.html', questions=questions)

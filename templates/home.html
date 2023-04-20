@@ -51,15 +51,34 @@
             <option value="easy">Easy</option>
             <option value="hard">Hard</option>
         </select>
+        <div id="easy-description" class="description">
+            <p>Easy difficulty will generate questions with integers between 1 and 10.</p>
+        </div>
+        <div id="hard-description" class="description" style="display: none;">
+            <p>Hard difficulty will generate questions with numbers (including decimals) between -10 and 10.</p>
+        </div>
         <br>
-<!--        <button onclick="startQuiz">Start Quiz</button>-->
-        <a href="{{ url_for('quiz') }}"><button>Start Quiz</button></a>
+        <button>Start Quiz</button>
     </div>
-<!--<script>-->
-<!--    function startQuiz() {-->
-<!--    const difficulty = document.getElementById('difficulty').value;-->
-<!--    location.href = `/quiz?difficulty=${difficulty}`;-->
-<!--    }-->
-<!--</script>-->
+<script>
+    document.getElementById("difficulty").addEventListener("change", function() {
+        const selectedDifficulty = this.value;
+        const easyDescription = document.getElementById("easy-description");
+        const hardDescription = document.getElementById("hard-description");
+
+        if (selectedDifficulty === "easy") {
+            easyDescription.style.display = "block";
+            hardDescription.style.display = "none";
+        } else {
+            easyDescription.style.display = "none";
+            hardDescription.style.display = "block";
+        }
+    });
+
+    document.querySelector('button').addEventListener('click', function() {
+        const difficulty = document.getElementById('difficulty').value;
+        location.href = `/quiz?difficulty=${difficulty}`;
+    });
+</script>
 </body>
 </html>
