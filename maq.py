@@ -33,14 +33,20 @@ def generate_hard_question():
 def quiz():
     if request.method == 'POST':
         score = 0
+        wrong_questions = []  # Store the questions the user got wrong
+
         for i in range(1, 11):
             user_answer_str = request.form[f'answer{i}']
             user_answer = float(user_answer_str) if user_answer_str else None
+            correct_answer = float(request.form[f'correct{i}'])
 
-            if user_answer is not None and round(user_answer, 2) == round(float(request.form[f'correct{i}']), 2):
+            if user_answer is not None and round(user_answer, 2) == round(correct_answer, 2):
                 score += 1
+            else:
+                a, b, c = [int(x) for x in request.form[f'question{i}'].split(',')]
+                wrong_questions.append((a, b, c, correct_answer))
 
-        return render_template('score.html', score=score)
+        return render_template('score.html', score=score, wrong_questions=wrong_questions)
     difficulty = request.args.get('difficulty', 'easy')
 
     x = sp.Symbol('x')

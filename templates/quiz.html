@@ -79,6 +79,7 @@
 
         <form id="quiz-form" method="POST">
             {% for a, b, c, correct in questions %}
+                <input type="hidden" name="question{{ loop.index }}" value="{{ a }},{{ b }},{{ c }}">
                 <input type="hidden" name="correct{{ loop.index }}" value="{{ correct }}">
                 <p>{{ a }} + {{ b }}x = {{ c }}, solve for x:</p>
                 <p>x = <input type="number" step="any" name="answer{{ loop.index }}" ></p>

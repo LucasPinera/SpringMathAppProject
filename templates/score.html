@@ -79,7 +79,18 @@
                 <p class="message">You Passed</p>
             {% endif %}
         {% endif %}
-        <a href="{{ url_for('quiz') }}"><button type="button">Retry Quiz</button></a>
+
+        {% if wrong_questions %}
+            <h2>Questions you got wrong:</h2>
+            <ol>
+                {% for a, b, c, correct in wrong_questions %}
+                    <li>
+                        <p>{{ a }} + {{ b }}x = {{ c }}</p>
+                        <p>Correct answer: x = {{ correct }}</p>
+                    </li>
+                {% endfor %}
+            </ol>
+        {% endif %}
         <a href="{{ url_for('home') }}"><button type="button">Back to Home</button></a>
     </div>
 </body>
