@@ -1,19 +1,27 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, redirect
 import random
 import sympy as sp
 
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET', 'POST'])
-def math_quiz():
-    score = None
+@app.route('/')
+def home():
+    return render_template('home.html')
+
+
+@app.route('/quiz', methods=['GET', 'POST'])
+def quiz():
     if request.method == 'POST':
         score = 0
         for i in range(1, 11):
-            answer = float(request.form[f'answer{i}'])
-            if round(answer, 2) == round(float(request.form[f'correct{i}']), 2):
+            user_answer_str = request.form[f'answer{i}']
+            user_answer = float(user_answer_str) if user_answer_str else None
+
+            if user_answer is not None and round(user_answer, 2) == round(float(request.form[f'correct{i}']), 2):
                 score += 1
+
+        return render_template('score.html', score=score)
 
     x = sp.Symbol('x')
     questions = []
@@ -26,8 +34,12 @@ def math_quiz():
         correct = sp.solve(equation, x)[0]
         questions.append((a, b, c, correct))
 
-    return render_template('index.html', questions=questions, score=score)
+    return render_template('quiz.html', questions=questions)
 
+
+@app.route('/score')
+def score():
+    return render_template('score.html')
 
 
 if __name__ == '__main__':

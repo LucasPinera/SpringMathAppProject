@@ -1,16 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Math Quiz</title>
+    <title>Math Quiz - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-image: url('https://wallpaperaccess.com/full/237627.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            width: 70%;
+            max-width: 800px;
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin-top: 20px;
+        }
+        select {
+            font-size: 18px;
+            padding: 5px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Math Quiz</h1>
-    <form action="/quiz" method="POST">
-        <label for="num_questions">Number of questions:</label>
-        <input type="number" name="num_questions" id="num_questions" value="5">
-        <br><br>
-        <input type="submit" value="Start Quiz">
-    </form>
+    <div class="container">
+        <h1>Welcome to the Math Quiz</h1>
+        <p>Test your math skills by solving 10 algebraic equations.</p>
+        <p>Select difficulty level:</p>
+        <select id="difficulty">
+            <option value="easy">Easy</option>
+        </select>
+        <br>
+        <a href="{{ url_for('quiz') }}"><button>Start Quiz</button></a>
+    </div>
 </body>
 </html>
