@@ -20,6 +20,17 @@ def generate_easy_question():
         if b != 0:
             return a, b, c, x_value
 
+
+
+def generate_medium_question():
+    while True:
+        a = random.randint(-10, 10)
+        b = random.randint(-10, 10)
+        x_value = random.randint(-10, 10)
+        c = a + b * x_value
+        if b != 0:
+            return a, b, c, x_value
+
 def generate_hard_question():
     while True:
         a = random.randint(-10, 10)
@@ -65,7 +76,7 @@ def quiz():
                 else:
                     question_parts = [float(x) for x in question_str.split(',')]    # I changed this line from int to float
 
-                    if len(question_parts) == 3:  # Easy question
+                    if len(question_parts) == 3:  # Easy & Medium? question
                         a, b, c = question_parts
                         wrong_questions.append((a, b, c, correct_answer))
                     else:  # Hard question
@@ -80,12 +91,16 @@ def quiz():
 
     difficulty = request.args.get('difficulty', 'easy')
 
-    x = sp.Symbol('x')
+    # x = sp.Symbol('x')
     simple_questions = []
     complex_questions = []
 
     while len(simple_questions) < 10 and difficulty == "easy":
         a, b, c, x_value = generate_easy_question()
+        simple_questions.append((a, b, c, x_value))
+
+    while len(simple_questions) < 10 and difficulty =="medium":
+        a, b, c, x_value = generate_medium_question()
         simple_questions.append((a, b, c, x_value))
 
     while len(complex_questions) < 10 and difficulty == "hard":
