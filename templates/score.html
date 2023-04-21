@@ -4,7 +4,7 @@
     <title>Math Quiz - Score</title>
     <script src="{{ url_for('static', filename='skycons.js') }}"></script>
     <style>
-        body {
+           body {
             font-family: Arial, sans-serif;
             font-size: 20px;
             text-align: center;
@@ -55,17 +55,44 @@
             position: left;
             margin-top: -225px;
         }
+       .confetti {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  animation: fall 8s;
+  top: -10px;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(500vh);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
     </style>
     <script>
         function initRain(score) {
-            if (score < 7) {
-                var canvas = document.getElementById('rain');
-                var skycons = new Skycons({"color": "blue"});
-                skycons.add(canvas, "RAIN");
-                skycons.play();
-            }
-        }
-
+    if (parseInt(score) < 7) {
+        var canvas = document.getElementById("rain");
+        var skycons = new Skycons({ color: "blue" });
+        skycons.add(canvas, "RAIN");
+        skycons.play();
+    } else {
+        createConfetti();
+    }
+}
         function toggleExplanation(button) {
             const explanation = button.nextElementSibling;
             if (explanation.style.display === "none") {
@@ -76,40 +103,63 @@
                 button.innerText = "Show Explanation";
             }
         }
-    </script>
+        function createConfetti() {
+  for (let i = 0; i < 200; i++) {
+    let confetti = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    let star = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    star.setAttribute("d", "M10 0 L12.7 6.5 L20 7.3 L14 12 L16 20 L10 15.5 L4 20 L6 12 L0 7.3 L7.3 6.5 L10 0");
+    star.setAttribute("fill", "hsl(" + 360 * Math.random() + "," + (25 + 70 * Math.random()) + "%,50%)");
+    confetti.classList.add("confetti");
+    confetti.setAttribute("width", "20");
+    confetti.setAttribute("height", "20");
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.top = -Math.random() * 200 + "px";
+    confetti.style.animationDuration = Math.random() * 5 + 5 + "s, " + Math.random() * 5 + 5 + "s";
+    confetti.style.animationDelay = Math.random() * 5 + "s, " + Math.random() * 5 + "s";
+    confetti.appendChild(star);
+    document.body.appendChild(confetti);
+  }
+}
+
+
+
+</script>
 </head>
 <body onload="initRain({{ score }})">
-    <div class="container">
-        <canvas id="rain"></canvas>
-        <h1>Quiz Score</h1>
-        {% if score is not none %}
-            <p class="score">Your score is {{ score }}/10.</p>
-            {% if score < 7 %}
-                <p class="message">You Suck</p>
-            {% else %}
-                <p class="message">You Passed</p>
-            {% endif %}
-        {% endif %}
+<div class="container">
+    <canvas id="rain"></canvas>
+    <h1>Quiz Score</h1>
+    {% if score is not none %}
+    <p class="score">Your score is {{ score }}/10.</p>
+    {% if score < 7 %}
+    <p class="message">You Suck</p>
+    {% else %}
+    <p class="message">You Passed</p>
+    {% endif %}
+    {% endif %}
 
-        {% if wrong_questions %}
+    {% if wrong_questions %}
     <h2>Questions you got wrong:</h2>
     <ol>
         {% for a, b, c, correct in wrong_questions %}
-            <li>
-                <p>{{ a }} + {{ b }}x = {{ c }}</p>
-                <p>Correct answer: x = {{ correct }}</p>
-                <button class="explain-btn" onclick="toggleExplanation(this)">Show Explanation</button>
-                <div class="explanation" style="display: none;">
-                    <p>Explanation: To solve this equation, isolate the x variable by subtracting a from both sides and then dividing by b.</p>
-                    <p>Step 1: Subtract {{ a }} from both sides: {{ b }}x = {{ c - a }}</p>
-                    <p>Step 2: Divide by {{ b }}: x = ({{ c - a }}) / {{ b }}</p>
-                    <p>Result: x = {{ correct }}</p>
-                </div>
-            </li>
+        <li>
+            <p>{{ a }} + {{ b }}x = {{ c }}</p>
+            <p>Correct answer: x = {{ correct }}</p>
+            <button class="explain-btn" onclick="toggleExplanation(this)">Show Explanation</button>
+            <div class="explanation" style="display: none;">
+                <p>Explanation: To solve this equation, isolate the x variable by subtracting a from both sides and then
+                    dividing by b.</p>
+                <p>Step 1: Subtract {{ a }} from both sides: {{ b }}x = {{ c - a }}</p>
+                <p>Step 2: Divide by {{ b }}: x = ({{ c - a }}) / {{ b }}</p>
+                <p>Result: x = {{ correct }}</p>
+            </div>
+        </li>
         {% endfor %}
     </ol>
-        {% endif %}
-        <a href="{{ url_for('home') }}"><button type="button">Back to Home</button></a>
-    </div>
+    {% endif %}
+    <a href="{{ url_for('home') }}">
+        <button type="button">Back to Home</button>
+    </a>
+</div>
 </body>
 </html>
