@@ -11,22 +11,22 @@ def home():
 
 
 def generate_easy_question():
-    a = random.randint(1, 10)
-    b = random.randint(1, 10)
-    x_value = random.randint(1, 10)
-    c = round(a + b * x_value)
-    return a, b, c, x_value
-
+    while True:
+        a = random.randint(1, 10)
+        b = random.randint(1, 10)
+        x_value = random.randint(1, 10)
+        c = a + b * x_value
+        if b != 0:
+            return a, b, c, x_value
 
 def generate_hard_question():
-    a = random.randint(-10, 10)
-    b = random.randint(-10, 10)
-    x_value = round(random.uniform(-10, 10), 1)
-    c = round(a + b * x_value)
-    return a, b, c, x_value
-
-
-
+    while True:
+        a = random.randint(-10, 10)
+        b = random.randint(-10, 10)
+        x_value = round(random.uniform(-10, 10), 1)
+        c = a + b * x_value
+        if b != 0 and c.is_integer():
+            return a, b, int(c), x_value
 
 
 @app.route('/quiz', methods=['GET', 'POST'])

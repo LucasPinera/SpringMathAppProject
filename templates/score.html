@@ -65,6 +65,17 @@
                 skycons.play();
             }
         }
+
+        function toggleExplanation(button) {
+            const explanation = button.nextElementSibling;
+            if (explanation.style.display === "none") {
+                explanation.style.display = "block";
+                button.innerText = "Hide Explanation";
+            } else {
+                explanation.style.display = "none";
+                button.innerText = "Show Explanation";
+            }
+        }
     </script>
 </head>
 <body onload="initRain({{ score }})">
@@ -81,15 +92,22 @@
         {% endif %}
 
         {% if wrong_questions %}
-            <h2>Questions you got wrong:</h2>
-            <ol>
-                {% for a, b, c, correct in wrong_questions %}
-                    <li>
-                        <p>{{ a }} + {{ b }}x = {{ c }}</p>
-                        <p>Correct answer: x = {{ correct }}</p>
-                    </li>
-                {% endfor %}
-            </ol>
+    <h2>Questions you got wrong:</h2>
+    <ol>
+        {% for a, b, c, correct in wrong_questions %}
+            <li>
+                <p>{{ a }} + {{ b }}x = {{ c }}</p>
+                <p>Correct answer: x = {{ correct }}</p>
+                <button class="explain-btn" onclick="toggleExplanation(this)">Show Explanation</button>
+                <div class="explanation" style="display: none;">
+                    <p>Explanation: To solve this equation, isolate the x variable by subtracting a from both sides and then dividing by b.</p>
+                    <p>Step 1: Subtract {{ a }} from both sides: {{ b }}x = {{ c - a }}</p>
+                    <p>Step 2: Divide by {{ b }}: x = ({{ c - a }}) / {{ b }}</p>
+                    <p>Result: x = {{ correct }}</p>
+                </div>
+            </li>
+        {% endfor %}
+    </ol>
         {% endif %}
         <a href="{{ url_for('home') }}"><button type="button">Back to Home</button></a>
     </div>
