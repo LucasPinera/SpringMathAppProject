@@ -6,7 +6,7 @@
     <style>
            body {
             font-family: Arial, sans-serif;
-            font-size: 20px;
+            font-size: 32px;
             text-align: center;
             display: flex;
             justify-content: center;
@@ -19,10 +19,18 @@
         }
         .container {
             background-color: rgba(255, 255, 255, 0.9);
+            margin-top: 100px;
             padding: 20px;
             border-radius: 10px;
             width: 70%;
             max-width: 800px;
+             background-image:
+        linear-gradient(45deg, #a8d0e6 25%, transparent 25%, transparent 75%, #a8d0e6 75%, #a8d0e6 100%),
+        linear-gradient(45deg, #a8d0e6 25%, white 25%, white 75%, #a8d0e6 75%, #a8d0e6 100%);
+    background-size: 100px 100px; /* Adjust the size of the checkerboard squares */
+    background-position: 0 0, 50px 50px; /* Adjust the position of the checkerboard pattern */
+    );
+
         }
         h1 {
             font-size: 32px;
@@ -50,11 +58,17 @@
             animation: grow 2s ease-in-out infinite alternate;
         }
         #rain {
-            width: 700px;
-            height: 300px;
-            position: left;
-            margin-top: -225px;
-        }
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    pointer-events: none;
+}
+
+
        .confetti {
   position: fixed;
   width: 20px;
@@ -83,16 +97,17 @@
 
     </style>
     <script>
-        function initRain(score) {
-    if (parseInt(score) < 7) {
-        var canvas = document.getElementById("rain");
-        var skycons = new Skycons({ color: "blue" });
-        skycons.add(canvas, "RAIN");
-        skycons.play();
-    } else {
+    function initConfetti() {
+    if (parseInt('{{ score }}', 10) >= 7) {
         createConfetti();
     }
 }
+
+window.onload = initConfetti;
+
+
+
+
         function toggleExplanation(button) {
             const explanation = button.nextElementSibling;
             if (explanation.style.display === "none") {
@@ -104,7 +119,7 @@
             }
         }
         function createConfetti() {
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 2000; i++) {
     let confetti = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     let star = document.createElementNS("http://www.w3.org/2000/svg", "path");
     star.setAttribute("d", "M10 0 L12.7 6.5 L20 7.3 L14 12 L16 20 L10 15.5 L4 20 L6 12 L0 7.3 L7.3 6.5 L10 0");
@@ -126,14 +141,14 @@
 </script>
 </head>
 
-<body onload="initRain({{ score }})">
+<body>
     <div class="container">
-        <canvas id="rain"></canvas>
+        <div id="rain"></div>
         <h1>Quiz Score</h1>
         {% if score is not none %}
             <p class="score">Your score is {{ score }}/10.</p>
             {% if score < 7 %}
-                <p class="message">You Suck</p>
+                <p class="message">You Failed</p>
             {% else %}
                 <p class="message">You Passed</p>
             {% endif %}

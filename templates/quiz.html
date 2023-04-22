@@ -5,7 +5,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            font-size: 20px;
+            font-size: 32px;
             text-align: center;
             display: flex;
             justify-content: center;
@@ -18,11 +18,18 @@
         }
         .container {
             background-color: rgba(255, 255, 255, 0.9);
+            margin-top: 100px;
             padding: 20px;
             border-radius: 10px;
             width: 70%;
-            max-width: 800px;
-        }
+            max-width: 900px;
+        background-image: repeating-linear-gradient(
+        180deg,
+        #ffffff,
+        #ffffff 100px, /* This is the height of each stripe; adjust it as desired */
+        #a8d0e6 100px, /* Pastel blue color */
+        #a8d0e6 100px /* This is double the height of each stripe; adjust it as desired */
+    );
         form {
             width: 100%;
         }
