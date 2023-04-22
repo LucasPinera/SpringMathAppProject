@@ -74,10 +74,20 @@
 
 
     window.onload = function () {
-        var timeInSeconds = 240; // Change this value to adjust the timer duration
-        var display = document.querySelector('#time');
-        startTimer(timeInSeconds, display);
-    };
+    const urlParams = new URLSearchParams(window.location.search);
+    const difficulty = urlParams.get('difficulty');
+
+    var timeInSeconds;
+    if (difficulty === 'hard') {
+        timeInSeconds = 480; // 480 seconds (8 minutes) for hard difficulty
+    } else {
+        timeInSeconds = 300; // 300 seconds (5 minutes) for easy and medium difficulties
+    }
+
+    var display = document.querySelector('#time');
+    startTimer(timeInSeconds, display);
+};
+
 </script>
 <body>
     <div class="container">
