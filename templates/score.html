@@ -13,7 +13,6 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-image: url('https://wallpaperaccess.com/full/237627.jpg');
             background-size: cover;
             background-position: center;
         }
@@ -135,6 +134,18 @@ window.onload = initConfetti;
 
 
 </script>
+     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const score = parseInt('{{ score }}', 10);
+            const body = document.querySelector('body');
+
+            if (score < 7) {
+                body.style.backgroundImage = "url(https://wallpaperaccess.com/full/237627.jpg)";
+            } else {
+                body.style.backgroundImage = "url(https://wallpaperaccess.com/full/401679.jpg)";
+            }
+        });
+    </script>
 </head>
 
 <body>
