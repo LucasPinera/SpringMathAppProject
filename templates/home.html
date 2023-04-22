@@ -119,6 +119,14 @@
         </h1>
 
 
+        <p>Test your math skills by solving 10 algebraic equations.</p>
+        <p>Select difficulty level:</p>
+        <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+
         <div class="difficulty-description-container">
             <div id="easy-description" class="difficulty-description active">
                 <h3>Easy Difficulty</h3>
@@ -134,23 +142,6 @@
             </div>
         </div>
 
-
-        <p>Test your math skills by solving 10 algebraic equations.</p>
-        <p>Select difficulty level:</p>
-        <select id="difficulty">
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-        </select>
-<!--        <div id="easy-description" class="description">-->
-<!--            <p>Easy difficulty will generate questions with integers between 1 and 10.</p>-->
-<!--        </div>-->
-<!--        <div id="medium-description" class="description" style="display: none;">-->
-<!--            <p>Medium difficulty will generate questions with integers between -10 and 10.</p>-->
-<!--        </div>-->
-<!--        <div id="hard-description" class="description" style="display: none;">-->
-<!--            <p>Hard difficulty will generate questions with numbers (including decimals) between -10 and 10.</p>-->
-<!--        </div>-->
         <br>
         <button>Start Quiz</button>
     </div>
@@ -163,6 +154,7 @@
 
         if (selectedDifficulty === "easy") {
             easyDescription.style.display = "block";
+            mediumDescription.style.display = "none";
             hardDescription.style.display = "none";
         } else if (selectedDifficulty === "medium") {
             easyDescription.style.display = "none";
@@ -170,6 +162,7 @@
             hardDescription.style.display = "none"
         } else {
             easyDescription.style.display = "none";
+            mediumDescription.style.display = "none";
             hardDescription.style.display = "block";
         }
     });
