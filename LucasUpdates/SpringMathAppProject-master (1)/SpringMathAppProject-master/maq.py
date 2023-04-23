@@ -3,7 +3,9 @@ import random
 import sympy as sp
 from werkzeug.exceptions import BadRequestKeyError
 
-app = Flask(__name__)
+# app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
+
 
 
 @app.route('/')
@@ -39,13 +41,16 @@ def generate_hard_question():
         d = random.randint(-10, 10)
         x_value = round(random.uniform(-10, 10), 1)
 
+        if a == c or a == -c:
+            c = random.randint(-10, 10)
+
         # Create an equation with parentheses and more operations
         eq_value = a * (x_value + b) + c * (x_value - d)
         #Make sure there are not 0
 
+
         if a != 0 and b != 0 and c != 0 and d != 0 and eq_value.is_integer():
             return a, b, c, d, int(eq_value), x_value
-
 
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
@@ -56,15 +61,22 @@ def quiz():
         i = 1
         while True:
             try:
+
+                # If the user chose easy or medium these values will be initialized
                 user_answer_str = request.form.get(f'simple_answer{i}', None)
                 correct_answer_str = request.form.get(f'simple_correct{i}', None)
                 question_str = request.form.get(f'simple_question{i}', None)
 
+                # If the user chose hard difficulty this if statement will catch that the 3 values above were not
+                # initialized, and will initialize them accordingly
                 if user_answer_str is None or correct_answer_str is None or question_str is None:
                     user_answer_str = request.form.get(f'complex_answer{i}', None)
                     correct_answer_str = request.form.get(f'complex_correct{i}', None)
                     question_str = request.form.get(f'complex_question{i}', None)
 
+
+                # If the values are still not initialized this if statement will catch it, break the try block
+                # and starts over
                 if user_answer_str is None or correct_answer_str is None or question_str is None:
                     break
 
@@ -87,7 +99,7 @@ def quiz():
             except BadRequestKeyError:
                 break
 
-        return render_template('score.html', score=score, wrong_questions=wrong_questions)
+        return render_template('score2.html', score=score, wrong_questions=wrong_questions)
 
     difficulty = request.args.get('difficulty', 'easy')
 
@@ -110,9 +122,9 @@ def quiz():
     return render_template('quiz.html', simple_questions=simple_questions, complex_questions=complex_questions)
 
 
-@app.route('/score')
+@app.route('/score2')
 def score():
-    return render_template('score.html')
+    return render_template('score2.html')
 
 
 if __name__ == '__main__':
