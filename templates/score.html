@@ -6,7 +6,7 @@
     <style>
 body {
   font-family: Arial, sans-serif;
-  font-size: 20px;
+  font-size: 32px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -131,91 +131,111 @@ button {
 }
 
 
+
     </style>
     <script>
 
-    function initRain(score) {
+   // Initializes the rain animation based on the user's score
+function initRain(score) {
+    // If the score is less than 7, create raindrops
     if (parseInt(score) < 7) {
-
         createRaindrops();
     } else {
-
+        // Otherwise, create confetti
         createConfetti();
+    }
+}
+
+// Function to create raindrops on the screen
+function createRaindrops() {
+    // Loop to create 150 raindrops
+    for (let i = 0; i < 150; i++) {
+        // Create an SVG element for the raindrop
+        let raindrop = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        let drop = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        drop.setAttribute("d", "M5 15 Q10 0 15 15 L13 15 Q10 5 7 15 Z");
+        drop.setAttribute("fill", "blue");
+
+        // Set up the drop attributes
+        drop.setAttribute("cx", "5");
+        drop.setAttribute("cy", "5");
+        drop.setAttribute("r", "5");
+        drop.setAttribute("fill", "rgba(76, 175, 255, 0.75)");
+        // Add the 'drop' class to the raindrop element
+        raindrop.classList.add("drop");
+        // Set the dimensions and position of the raindrop element
+        raindrop.setAttribute("width", "10");
+        raindrop.setAttribute("height", "10");
+        raindrop.style.left = Math.random() * 100 + "vw";
+        raindrop.style.top = -Math.random() * 200 + "px";
+        // Set up the animation properties for the raindrop element
+        raindrop.style.animationDuration = Math.random() * 1 + 0.5 + "s";
+        raindrop.style.animationDelay = Math.random() * 2 + "s";
+        raindrop.style.animationName = "fall";
+        raindrop.style.animationTimingFunction = "linear";
+        raindrop.style.animationIterationCount = "infinite";
+        // Append the drop to the raindrop element and add it to the body
+        raindrop.appendChild(drop);
+        document.body.appendChild(raindrop);
+    }
+
+    // After 5 seconds, stop the raindrop animation
+    setTimeout(function() {
+        let drops = document.querySelectorAll(".drop");
+        for (let i = 0; i < drops.length; i++) {
+            drops[i].style.animationIterationCount = "1";
+        }
+    }, 5000);
+}
+
+       // Function to toggle the explanation's visibility when the button is clicked
+function toggleExplanation(button) {
+    // Get the explanation element, which is the next sibling of the button
+    const explanation = button.nextElementSibling;
+
+    // Toggle the display property and button text based on the current state
+    if (explanation.style.display === "none") {
+        explanation.style.display = "block";
+        button.innerText = "Hide Explanation";
+    } else {
+        explanation.style.display = "none";
+        button.innerText = "Show Explanation";
+    }
+}
+
+// Function to create confetti animation
+function createConfetti() {
+    // Loop to create 1000 confetti pieces
+    for (let i = 0; i < 1000; i++) {
+        // Create an SVG element for the confetti piece
+        let confetti = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        let star = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        star.setAttribute("d", "M10 0 L12.7 6.5 L20 7.3 L14 12 L16 20 L10 15.5 L4 20 L6 12 L0 7.3 L7.3 6.5 L10 0");
+        // Set the fill color of the confetti piece using HSL values
+        star.setAttribute("fill", "hsl(" + 360 * Math.random() + "," + (25 + 70 * Math.random()) + "%,50%)");
+
+        // Add the 'confetti' class to the confetti element
+        confetti.classList.add("confetti");
+        // Set the dimensions and position of the confetti element
+        confetti.setAttribute("width", "20");
+        confetti.setAttribute("height", "20");
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.top = -Math.random() * 200 + "px";
+
+        // Set up the animation properties for the confetti element
+        confetti.style.animationDuration = Math.random() * 5 + 5 + "s, " + Math.random() * 5 + 5 + "s";
+        confetti.style.animationDelay = Math.random() * 5 + "s, " + Math.random() * 5 + "s";
+
+        // Append the star to the confetti element and add it to the body
+        confetti.appendChild(star);
+        document.body.appendChild(confetti);
     }
 }
 
 
 
 
-
-function createRaindrops() {
-
-  for (let i = 0; i < 150; i++) {
-   let raindrop = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-let drop = document.createElementNS("http://www.w3.org/2000/svg", "path");
-drop.setAttribute("d", "M5 15 Q10 0 15 15 L13 15 Q10 5 7 15 Z");
-drop.setAttribute("fill", "blue");
-
-    drop.setAttribute("cx", "5");
-    drop.setAttribute("cy", "5");
-    drop.setAttribute("r", "5");
-    drop.setAttribute("fill", "rgba(76, 175, 255, 0.75)");
-    raindrop.classList.add("drop");
-    raindrop.setAttribute("width", "10");
-    raindrop.setAttribute("height", "10");
-    raindrop.style.left = Math.random() * 100 + "vw";
-    raindrop.style.top = -Math.random() * 200 + "px";
-    raindrop.style.animationDuration = Math.random() * 1 + 0.5 + "s";
-    raindrop.style.animationDelay = Math.random() * 2 + "s";
-    raindrop.style.animationName = "fall";
-    raindrop.style.animationTimingFunction = "linear";
-    raindrop.style.animationIterationCount = "infinite";
-    raindrop.appendChild(drop);
-    document.body.appendChild(raindrop);
-  }
-
-  setTimeout(function() {
-  let drops = document.querySelectorAll(".drop");
-  for (let i = 0; i < drops.length; i++) {
-    drops[i].style.animationIterationCount = "1";
-  }
-}, 5000);
-
-}
-
-
-
-        function toggleExplanation(button) {
-            const explanation = button.nextElementSibling;
-            if (explanation.style.display === "none") {
-                explanation.style.display = "block";
-                button.innerText = "Hide Explanation";
-            } else {
-                explanation.style.display = "none";
-                button.innerText = "Show Explanation";
-            }
-        }
-        function createConfetti() {
-  for (let i = 0; i < 1000; i++) {
-    let confetti = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    let star = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    star.setAttribute("d", "M10 0 L12.7 6.5 L20 7.3 L14 12 L16 20 L10 15.5 L4 20 L6 12 L0 7.3 L7.3 6.5 L10 0");
-    star.setAttribute("fill", "hsl(" + 360 * Math.random() + "," + (25 + 70 * Math.random()) + "%,50%)");
-    confetti.classList.add("confetti");
-    confetti.setAttribute("width", "20");
-    confetti.setAttribute("height", "20");
-    confetti.style.left = Math.random() * 100 + "vw";
-    confetti.style.top = -Math.random() * 200 + "px";
-    confetti.style.animationDuration = Math.random() * 5 + 5 + "s, " + Math.random() * 5 + 5 + "s";
-    confetti.style.animationDelay = Math.random() * 5 + "s, " + Math.random() * 5 + "s";
-    confetti.appendChild(star);
-    document.body.appendChild(confetti);
-  }
-}
-
-
-
-</script>
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const score = parseInt('{{ score }}', 10);
@@ -227,25 +247,29 @@ drop.setAttribute("fill", "blue");
                 body.style.backgroundImage = "url(https://wallpaperaccess.com/full/401679.jpg)";
             }
         });
+
     </script>
 </head>
 
 <body onload="initRain({{ score }})">
 
-    <div class="container">
-<!--        <canvas id="rain"></canvas>-->
-        <h1>Quiz Score</h1>
-        {% if score is not none %}
-            <p class="score">Your score is {{ score }}/10.</p>
-            {% if score < 7 %}
-                <p class="message">You Suck</p>
-            {% else %}
-                <p class="message">You Passed</p>
-            {% endif %}
-        {% endif %}
-        <audio id="successAudio" src="{{ url_for('static', filename='success.mp3') }}" preload="auto"></audio>
-        <audio id="failureAudio" src="{{ url_for('static', filename='failure.mp3') }}" preload="auto"></audio>
-         <script>
+<div class="container">
+    <!-- Display the quiz score -->
+    <h1>Quiz Score</h1>
+    {% if score is not none %}
+    <p class="score">Your score is {{ score }}/10.</p>
+    {% if score < 7 %}
+    <!-- Display a failure message if the user's score is less than 7 -->
+    <p class="message">You Failed</p>
+    {% else %}
+    <!-- Display a success message if the user's score is 7 or more -->
+    <p class="message">You Passed</p>
+    {% endif %}
+    {% endif %}
+    <!-- Load the success and failure audio files -->
+    <audio id="successAudio" src="{{ url_for('static', filename='success.mp3') }}" preload="auto"></audio>
+    <audio id="failureAudio" src="{{ url_for('static', filename='failure.mp3') }}" preload="auto"></audio>
+    <script>
         // Get the user's score from the server-rendered template
         var userScore = parseInt('{{ score }}', 10);
 
@@ -255,135 +279,106 @@ drop.setAttribute("fill", "blue");
         } else {
             document.getElementById('failureAudio').play();
         }
+
     </script>
 
-       {% if wrong_questions %}
-            <h2>Questions you got wrong:</h2>
-            <ol>
-                {% for question in wrong_questions %}
-                {% if question|length == 4 %}
-                {% set a, b, c, correct = question[:4] %}
-
-                    <li>
-                        <!-- Easy question explanation -->
-                        <p>{{ a }} + {{ b }}x = {{ c }}</p>
-                        <p>Correct answer: x = {{ correct }}</p>
-                        <button class="explain-btn" onclick="toggleExplanation(this)">Show Explanation</button>
-                        <div class="explanation" style="display: none;">
-                            <p>Explanation: To solve this equation, isolate the x variable by subtracting a from both sides and then dividing by b.</p>
-                            <p>{{ a }} + {{ b }}x = {{ c }}</p>
-                            <div class="step1">
-                                <p>Step 1: Subtract {{ a }} from both sides:</p>
-                                <p>{{a}} + {{ b }}x = {{ c }}</p>
-                                <p>-({{ a }})&nbsp;&nbsp;&nbsp;&nbsp;-({{ a }})</p>
-                                <p>{{ b }}x = {{ c - a }}</p>
-                            </div>
-
-                            <div class="step2">
-                                <p>Step 2: Divide by {{ b }}: x = ({{ c - a }}) / {{ b }}</p>
-                                <p>x = ({{ c - a }}) / {{ b }}</p>
-                                <p>Result: x = {{ correct }}</p>
-                            </div>
+    <!-- Display the questions the user got wrong -->
+    {% if wrong_questions %}
+    <h2>Questions you got wrong:</h2>
+    <ol>
+        {% for question in wrong_questions %}
+        {% if question|length == 4 %}
+        {% set a, b, c, correct = question[:4] %}
 
 
-                        </div>
-                    </li>
-                {% elif question|length == 6 %}
-                {% set a, b, c, d, eq_value, correct = question[:6] %}
+        <li>
+            <!-- Easy question explanation -->
+            <p>{{ a }} + {{ b }}x = {{ c }}</p>
+            <p>Correct answer: x = {{ correct }}</p>
+            <button class="explain-btn" onclick="toggleExplanation(this)">Show Explanation</button>
+            <div class="explanation" style="display: none;">
+                <p>Explanation: To solve this equation, isolate the x variable by subtracting a from both sides and then
+                    dividing by b.</p>
+                <p>{{ a }} + {{ b }}x = {{ c }}</p>
+                <div class="step1">
+                    <p>Step 1: Subtract {{ a }} from both sides:</p>
+                    <p>{{a}} + {{ b }}x = {{ c }}</p>
+                    <p>-({{ a }})&nbsp;&nbsp;&nbsp;&nbsp;-({{ a }})</p>
+                    <p>{{ b }}x = {{ c - a }}</p>
+                </div>
 
-<!--                Here I added the explanation for hard questions. I think the problem is here?-->
+                <div class="step2">
+                    <p>Step 2: Divide by {{ b }}: x = ({{ c - a }}) / {{ b }}</p>
+                    <p>x = ({{ c - a }}) / {{ b }}</p>
+                    <p>Result: x = {{ correct }}</p>
+                </div>
 
-                    <li>
-                        <!-- Hard question explanation -->
-                        <p>{{ a }}(x + {{ b }}) + {{ c }}(x - {{ d }}) = {{ eq_value }}</p>
 
-                        <p>Correct answer: x = {{ correct }}</p>
-                        <button class="explain-btn" onclick="toggleExplanation(this)">Show Explanation</button>
-                       <div class="explanation" style="display: none;">
-                                <p>Explanation: To solve this linear equation, follow these steps:</p>
-                                <p>{{ a }}(x + {{ b }}) + {{ c }}(x - {{ d }}) = {{ eq_value }}</p>
-                           <div class="step1">
-                                    <p>Step 1: Distribute the numbers across the parentheses.</p>
-                                    <p>{{ a }} * x + {{ a }} * ({{ b }}) + {{ c }} * x + {{ c }} * (-{{ d }}) = {{ eq_value }}</p>
-                                    <p>First {{ a }} * x = {{ a }}x</p>
-                                    <p>Then {{ a }} * {{ b }} = {{ a*b }}</p>
-                                    <p>Then {{ c }} * x = {{ c }}x</p>
-                                   <p>Then {{ c }} * {{ d }} = {{ c*d }}</p>
-                                   <p>Now put these values back into the equation:</p>
-                                    <p>{{ a }}x + {{ a*b }} + {{ c }}x - {{ c*d }} = {{ eq_value }}</p>
-                                </div>
-                                <div class="step2">
-                                    <p>Step 2: Combine the like terms (x terms and constants).</p>
-                                    <p>First, combine the x terms:</p>
-                                    <p>{{-a}}x + {{c}}x = {{-a+c}}x</p>
-                                    <p>Then, combine the constant terms:</p>
-                                    <p>{{a*b}} + ({{-c*d}}) = {{a*b- c*d}}</p>
-                                    <p>Now put these values back into the equation:</p>
-                                    <p>{{-a+c}}x + {{a*b-c*d}} = {{eq_value}}</p>
-                                </div>
-                                <div class="step3">
-                                  <p>Step 3: Subtract the constant from both sides of the equation to isolate the x term.</p>
-                                  <p>First, subtract {{ a*b-c*d }} from both sides:</p>
-                                   <p>{{-a+c}}x + {{a*b-c*d}} = {{eq_value}}</p>
-                                    <p>- {{a*b-c*d}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-{{a*b-c*d}}<p>
-                                  <p>{{-a+c}}x = {{ eq_value - (a*b-c*d) }}</p>
-                                  <p>Now simplify:</p>
-                                  <p>{{-a+c}}x = {{ eq_value + (c*d-a*b) }}</p>
-                                </div>
-                                <div class="step4">
-                                  <p>Step 4: Divide both sides of the equation by the coefficient of x to solve for x.</p>
-                                  <p>First, divide both sides by &nbsp;{{-a+c}}:</p>
-                                    <p>{{-a+c}}x = {{ eq_value + (c*d-a*b) }}</p>
-                                    <p> {{-a+c}}&nbsp;&nbsp;&nbsp;&nbsp;{{-a+c}}</p>
+            </div>
+        </li>
+        {% elif question|length == 6 %}
+        {% set a, b, c, d, eq_value, correct = question[:6] %}
 
-                                  <p>Once you do that, you have the x value!:</p>
-                                  <p>x = {{ correct }}</p>
-                                </div>
-                       </div>
-<!--                      <div class="step1">-->
-<!--                                    <p>Step 1: Distribute the numbers across the parentheses.</p>-->
-<!--                                    <p>{{ a }} * x + {{ a }} * ({{ b }}) + {{ c }} * x + {{ c }} * (-{{ d }}) = {{ eq_value }}</p>-->
-<!--                                    <p>First {{ a }} * x = {{ a }}x</p>-->
-<!--                                    <p>Then {{ a }} * {{ b }} = {{ a*b }}</p>-->
-<!--                                    <p>Then {{ c }} * x = {{ c }}x</p>-->
-<!--                                   <p>Then {{ c }} * {{ d }} = {{ c*d }}</p>-->
-<!--                                   <p>Now put these values back into the equation:</p>-->
-<!--                                    <p>{{ a }}x + {{ a*b }} + {{ c }}x - {{ c*d }} = {{ eq_value }}</p>-->
-<!--                                </div>-->
-<!--                                <div class="step2">-->
-<!--                                    <p>Step 2: Combine the like terms (x terms and constants).</p>-->
-<!--                                    <p>First, combine the x terms:</p>-->
-<!--                                    <p>{{-a}}x + {{c}}x = {{-a+c}}x</p>-->
-<!--                                    <p>Then, combine the constant terms:</p>-->
-<!--                                    <p>{{a*b}} + ({{-c*d}}) = {{a*b- c*d}}</p>-->
-<!--                                    <p>Now put these values back into the equation:</p>-->
-<!--                                    <p>{{-a+c}}x + {{a*b-c*d}} = {{eq_value}}</p>-->
-<!--                                </div>-->
-<!--                                <div class="step3">-->
-<!--                                  <p>Step 3: Subtract the constant from both sides of the equation to isolate the x term.</p>-->
-<!--                                  <p>First, subtract {{ a*b-c*d }} from both sides:</p>-->
-<!--                                   <p>{{-a+c}}x + {{a*b-c*d}} = {{eq_value}}</p>-->
-<!--                                    <p>- {{a*b-c*d}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-{{a*b-c*d}}<p>-->
-<!--                                  <p>{{-a+c}}x = {{ eq_value - (a*b-c*d) }}</p>-->
-<!--                                  <p>Now simplify:</p>-->
-<!--                                  <p>{{-a+c}}x = {{ eq_value + (c*d-a*b) }}</p>-->
-<!--                                </div>-->
-<!--                                <div class="step4">-->
-<!--                                  <p>Step 4: Divide both sides of the equation by the coefficient of x to solve for x.</p>-->
-<!--                                  <p>First, divide both sides by &nbsp;{{-a+c}}:</p>-->
-<!--                                    <p>{{-a+c}}x = {{ eq_value + (c*d-a*b) }}</p>-->
-<!--                                    <p>- {{-a+c}}&nbsp;&nbsp;&nbsp;&nbsp;{{-a+c}}</p>-->
+        <!--                Here I added the explanation for hard questions. I think the problem is here?-->
 
-<!--                                  <p>Once you do that, you have the x value!:</p>-->
-<!--                                  <p>x = {{ correct }}</p>-->
-<!--                                </div>-->
-                    </li>
-                {% endif %}
-            {% endfor %}
-            </ol>
+        <li>
+            <!-- Hard question explanation -->
+            <p>{{ a }}(x + {{ b }}) + {{ c }}(x - {{ d }}) = {{ eq_value }}</p>
+
+            <p>Correct answer: x = {{ correct }}</p>
+            <button class="explain-btn" onclick="toggleExplanation(this)">Show Explanation</button>
+            <div class="explanation" style="display: none;">
+                <p>Explanation: To solve this linear equation, follow these steps:</p>
+                <p>{{ a }}(x + {{ b }}) + {{ c }}(x - {{ d }}) = {{ eq_value }}</p>
+                <div class="step1">
+                    <p>Step 1: Distribute the numbers across the parentheses.</p>
+                    <p>{{ a }} * x + {{ a }} * ({{ b }}) + {{ c }} * x + {{ c }} * (-{{ d }}) = {{ eq_value }}</p>
+                    <p>First {{ a }} * x = {{ a }}x</p>
+                    <p>Then {{ a }} * {{ b }} = {{ a*b }}</p>
+                    <p>Then {{ c }} * x = {{ c }}x</p>
+                    <p>Then {{ c }} * {{ d }} = {{ c*d }}</p>
+                    <p>Now put these values back into the equation:</p>
+                    <p>{{ a }}x + {{ a*b }} + {{ c }}x - {{ c*d }} = {{ eq_value }}</p>
+                </div>
+                <div class="step2">
+                    <p>Step 2: Combine the like terms (x terms and constants).</p>
+                    <p>First, combine the x terms:</p>
+                    <p>{{-a}}x + {{c}}x = {{-a+c}}x</p>
+                    <p>Then, combine the constant terms:</p>
+                    <p>{{a*b}} + ({{-c*d}}) = {{a*b- c*d}}</p>
+                    <p>Now put these values back into the equation:</p>
+                    <p>{{-a+c}}x + {{a*b-c*d}} = {{eq_value}}</p>
+                </div>
+                <div class="step3">
+                    <p>Step 3: Subtract the constant from both sides of the equation to isolate the x term.</p>
+                    <p>First, subtract {{ a*b-c*d }} from both sides:</p>
+                    <p>{{-a+c}}x + {{a*b-c*d}} = {{eq_value}}</p>
+                    <p>- {{a*b-c*d}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-{{a*b-c*d}}
+                    <p>
+                    <p>{{-a+c}}x = {{ eq_value - (a*b-c*d) }}</p>
+                    <p>Now simplify:</p>
+                    <p>{{-a+c}}x = {{ eq_value + (c*d-a*b) }}</p>
+                </div>
+                <div class="step4">
+                    <p>Step 4: Divide both sides of the equation by the coefficient of x to solve for x.</p>
+                    <p>First, divide both sides by &nbsp;{{-a+c}}:</p>
+                    <p>{{-a+c}}x = {{ eq_value + (c*d-a*b) }}</p>
+                    <p> {{-a+c}}&nbsp;&nbsp;&nbsp;&nbsp;{{-a+c}}</p>
+
+                    <p>Once you do that, you have the x value!:</p>
+                    <p>x = {{ correct }}</p>
+                </div>
+            </div>
+
+        </li>
         {% endif %}
-        <a href="{{ url_for('home') }}"><button type="button">Back to Home</button></a>
-    </div>
+        {% endfor %}
+    </ol>
+    {% endif %}
+    <a href="{{ url_for('home') }}">
+        <button type="button">Back to Home</button>
+    </a>
+</div>
 </body>
 
 </html>

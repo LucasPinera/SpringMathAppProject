@@ -3,7 +3,7 @@
 <head>
     <title>Math Quiz</title>
     <style>
-        body {
+      body {
             font-family: Arial, sans-serif;
             font-size: 32px;
             text-align: center;
@@ -17,19 +17,19 @@
             background-position: center;
         }
         .container {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 1.0);
             margin-top: 100px;
             padding: 20px;
             border-radius: 10px;
             width: 70%;
             max-width: 900px;
-        background-image: repeating-linear-gradient(
-        180deg,
-        #ffffff,
-        #ffffff 100px, /* This is the height of each stripe; adjust it as desired */
-        #a8d0e6 100px, /* Pastel blue color */
-        #a8d0e6 100px /* This is double the height of each stripe; adjust it as desired */
-    );
+        }
+        .question-box {
+            background-color: rgba(168, 208, 230, 0.3); /* Light blue with some transparency */
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
         form {
             width: 100%;
         }
@@ -49,20 +49,28 @@
             font-size: 28px;
             font-weight: bold;
         }
+
     </style>
 </head>
 <script>
-    function startTimer(duration, display) {
+    // Function to start the timer with the given duration and display element
+function startTimer(duration, display) {
     var timer = duration, minutes, seconds;
+
+    // Set a countdown interval that runs every 1000ms (1 second)
     var countdown = setInterval(function () {
+        // Calculate minutes and seconds from the remaining timer value
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
 
+        // Add a leading zero for single-digit minutes and seconds
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
+        // Update the display element with the formatted time
         display.innerHTML =  minutes + " minutes " + seconds + " seconds";
 
+        // Decrease timer by 1, and if timer reaches 0, submit the quiz form and clear the countdown interval
         if (--timer < 0) {
             document.getElementById("quiz-form").submit();
             clearInterval(countdown);
@@ -70,13 +78,13 @@
     }, 1000);
 }
 
-
-
-
-    window.onload = function () {
+// Function to be executed when the window loads
+window.onload = function () {
+    // Get the 'difficulty' parameter from the URL
     const urlParams = new URLSearchParams(window.location.search);
     const difficulty = urlParams.get('difficulty');
 
+    // Set the time limit based on the difficulty level
     var timeInSeconds;
     if (difficulty === 'hard') {
         timeInSeconds = 480; // 480 seconds (8 minutes) for hard difficulty
@@ -84,44 +92,52 @@
         timeInSeconds = 300; // 300 seconds (5 minutes) for easy and medium difficulties
     }
 
+    // Get the display element for the timer and start the timer
     var display = document.querySelector('#time');
     startTimer(timeInSeconds, display);
 };
 
 </script>
 <body>
-    <div class="container">
-        <h1>Math Quiz</h1>
-<p id="timer">Time remaining: <span id="time"></span></p>
+<div class="container">
+    <h1>Math Quiz</h1>
+    <p id="timer">Time remaining: <span id="time"></span></p>
 
-        <form id="quiz-form" method="POST">
+    <!-- The quiz form starts here, with a POST method for submission -->
+    <form id="quiz-form" method="POST">
 
+        <!-- This block checks if the user picked 'easy' difficulty -->
+        {% if simple_questions %}
+        {% for a, b, c, correct in simple_questions %}
+        <!-- Store the simple question parameters and correct answer as hidden inputs -->
+        <input type="hidden" name="simple_question{{ loop.index }}" value="{{ a }},{{ b }},{{ c }}">
+        <input type="hidden" name="simple_correct{{ loop.index }}" value="{{ correct }}">
+        <!-- Display the simple question and input field for user's answer -->
+        <div class="{% if loop.index is odd %}question-box{% endif %}">
+            <p>{{ a }} + {{ b }}x = {{ c }}, solve for x:</p>
+            <p>x = <input type="number" step="any" name="simple_answer{{ loop.index }}"></p>
+        </div>
+        {% endfor %}
+        {% endif %}
 
-<!--            Here is an if statement to check if the user picked easy or hard-->
+        <!-- This block checks if the user picked 'hard' difficulty -->
+        {% if complex_questions %}
+        {% for a, b, c, d, eq_value, correct in complex_questions %}
+        <!-- Store the complex question parameters and correct answer as hidden inputs -->
+        <input type="hidden" name="complex_question{{ loop.index }}"
+               value="{{ a }},{{ b }},{{ c }},{{ d }},{{ eq_value }}">
+        <input type="hidden" name="complex_correct{{ loop.index }}" value="{{ correct }}">
+        <!-- Display the complex question and input field for user's answer -->
+        <div class="{% if loop.index is odd %}question-box{% endif %}">
+            <p>{{ a }}(x + {{ b }}) + {{ c }}(x - {{ d }}) = {{ eq_value }}, solve for x:</p>
+            <p>x = <input type="number" step="any" name="complex_answer{{ loop.index }}"></p>
+        </div>
+        {% endfor %}
+        {% endif %}
 
-            {% if simple_questions %}
-                {% for a, b, c, correct in simple_questions %}
-                    <input type="hidden" name="simple_question{{ loop.index }}" value="{{ a }},{{ b }},{{ c }}">
-                    <input type="hidden" name="simple_correct{{ loop.index }}" value="{{ correct }}">
-                    <p>{{ a }} + {{ b }}x = {{ c }}, solve for x:</p>
-                    <p>x = <input type="number" step="any" name="simple_answer{{ loop.index }}" ></p>
-                {% endfor %}
-            {% endif %}
-            {% if complex_questions %}
-                {% for a, b, c, d, eq_value, correct in complex_questions %}
-                    <input type="hidden" name="complex_question{{ loop.index }}" value="{{ a }},{{ b }},{{ c }},{{ d }},{{ eq_value }}">
-                    <input type="hidden" name="complex_correct{{ loop.index }}" value="{{ correct }}">
-                    <p>{{ a }}(x + {{ b }}) + {{ c }}(x - {{ d }}) = {{ eq_value }}, solve for x:</p>
-                    <p>x = <input type="number" step="any" name="complex_answer{{ loop.index }}" ></p>
-                {% endfor %}
-            {% endif %}
-
-
-
-
-
-            <button type="submit">Submit</button>
-        </form>
-    </div>
+        <!-- Submit button for the quiz form -->
+        <button type="submit">Submit</button>
+    </form>
+</div>
 </body>
 </html>
