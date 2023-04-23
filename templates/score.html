@@ -4,72 +4,66 @@
     <title>Math Quiz - Score</title>
     <script src="{{ url_for('static', filename='skycons.js') }}"></script>
     <style>
-           body {
-            font-family: Arial, sans-serif;
-            font-size: 32px;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-size: cover;
-            background-position: center;
-        }
-        .container {
-            background-color: rgba(255, 255, 255, 0.9);
-            margin-top: 100px;
-            padding: 20px;
-            border-radius: 10px;
-            width: 70%;
-            max-width: 800px;
-
-    );
-
-        }
-        h1 {
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-        p.score {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        button {
-            font-size: 18px;
-            padding: 10px 20px;
-            margin: 10px;
-        }
-        @keyframes grow {
-            0% {
-                transform: scale(1);
-            }
-            100% {
-                transform: scale(2);
-            }
-        }
-        .message {
-            animation: grow 2s ease-in-out infinite alternate;
-        }
-        #rain {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    pointer-events: none;
+body {
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-image: url('https://wallpaperaccess.com/full/237627.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
+.container {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  width: 70%;
+  max-width: 800px;
+}
 
-       .confetti {
-  position: fixed;
-  width: 20px;
-  height: 20px;
-  animation: fall 8s;
-  top: -10px;
+h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+p.score {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+button {
+  font-size: 18px;
+  padding: 10px 20px;
+  margin: 10px;
+}
+
+@keyframes grow {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(2);
+  }
+}
+
+.message {
+  animation: grow 2s ease-in-out infinite alternate;
+}
+
+.drop {
+  background: rgba(76, 175, 255, 0.95); /* Adjusted opacity to 75% */
+  width: 10px; /* Adjusted width for round droplets */
+  height: 20px; /* Adjusted height for round droplets */
+  position: absolute;
+  bottom: 100%;
+  animation: fall linear infinite;
+  border-radius: 50%; /* Added border-radius to make droplets round */
 }
 
 @keyframes fall {
@@ -77,8 +71,23 @@
     transform: translateY(-100%);
   }
   100% {
-    transform: translateY(500vh);
+    transform: translateY(10000%);
   }
+}
+
+
+.rain-drop {
+  position: fixed;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-duration: 5s; /* set duration to 10 seconds */
+}
+ .confetti {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  animation: fall 8s;
+  top: -10px;
 }
 
 @keyframes spin {
@@ -90,16 +99,89 @@
   }
 }
 
+.step1 {
+  background-color: rgba(173, 216, 230, 0.5); /* Light baby blue */
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.step2 {
+  background-color: hsl(55, 100%, 90%); /* Soft yellow */
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.step3 {
+  background-color: hsl(120, 60%, 75%); /* Strong green */
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.step4 {
+  background-color: hsl(310, 70%, 90%); /* Soft pink */
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+
     </style>
     <script>
-    function initConfetti() {
-    if (parseInt('{{ score }}', 10) >= 7) {
+
+    function initRain(score) {
+    if (parseInt(score) < 7) {
+
+        createRaindrops();
+    } else {
+
         createConfetti();
     }
 }
 
-window.onload = initConfetti;
 
+
+
+
+function createRaindrops() {
+
+  for (let i = 0; i < 150; i++) {
+   let raindrop = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+let drop = document.createElementNS("http://www.w3.org/2000/svg", "path");
+drop.setAttribute("d", "M5 15 Q10 0 15 15 L13 15 Q10 5 7 15 Z");
+drop.setAttribute("fill", "blue");
+
+    drop.setAttribute("cx", "5");
+    drop.setAttribute("cy", "5");
+    drop.setAttribute("r", "5");
+    drop.setAttribute("fill", "rgba(76, 175, 255, 0.75)");
+    raindrop.classList.add("drop");
+    raindrop.setAttribute("width", "10");
+    raindrop.setAttribute("height", "10");
+    raindrop.style.left = Math.random() * 100 + "vw";
+    raindrop.style.top = -Math.random() * 200 + "px";
+    raindrop.style.animationDuration = Math.random() * 1 + 0.5 + "s";
+    raindrop.style.animationDelay = Math.random() * 2 + "s";
+    raindrop.style.animationName = "fall";
+    raindrop.style.animationTimingFunction = "linear";
+    raindrop.style.animationIterationCount = "infinite";
+    raindrop.appendChild(drop);
+    document.body.appendChild(raindrop);
+  }
+
+  setTimeout(function() {
+  let drops = document.querySelectorAll(".drop");
+  for (let i = 0; i < drops.length; i++) {
+    drops[i].style.animationIterationCount = "1";
+  }
+}, 5000);
+
+}
 
 
 
@@ -114,7 +196,7 @@ window.onload = initConfetti;
             }
         }
         function createConfetti() {
-  for (let i = 0; i < 2000; i++) {
+  for (let i = 0; i < 1000; i++) {
     let confetti = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     let star = document.createElementNS("http://www.w3.org/2000/svg", "path");
     star.setAttribute("d", "M10 0 L12.7 6.5 L20 7.3 L14 12 L16 20 L10 15.5 L4 20 L6 12 L0 7.3 L7.3 6.5 L10 0");
@@ -134,7 +216,7 @@ window.onload = initConfetti;
 
 
 </script>
-     <script>
+    <script>
         document.addEventListener("DOMContentLoaded", function() {
             const score = parseInt('{{ score }}', 10);
             const body = document.querySelector('body');
@@ -148,14 +230,15 @@ window.onload = initConfetti;
     </script>
 </head>
 
-<body>
+<body onload="initRain({{ score }})">
+
     <div class="container">
-        <div id="rain"></div>
+<!--        <canvas id="rain"></canvas>-->
         <h1>Quiz Score</h1>
         {% if score is not none %}
             <p class="score">Your score is {{ score }}/10.</p>
             {% if score < 7 %}
-                <p class="message">You Failed</p>
+                <p class="message">You Suck</p>
             {% else %}
                 <p class="message">You Passed</p>
             {% endif %}
@@ -188,9 +271,21 @@ window.onload = initConfetti;
                         <button class="explain-btn" onclick="toggleExplanation(this)">Show Explanation</button>
                         <div class="explanation" style="display: none;">
                             <p>Explanation: To solve this equation, isolate the x variable by subtracting a from both sides and then dividing by b.</p>
-                            <p>Step 1: Subtract {{ a }} from both sides: {{ b }}x = {{ c - a }}</p>
-                            <p>Step 2: Divide by {{ b }}: x = ({{ c - a }}) / {{ b }}</p>
-                            <p>Result: x = {{ correct }}</p>
+                            <p>{{ a }} + {{ b }}x = {{ c }}</p>
+                            <div class="step1">
+                                <p>Step 1: Subtract {{ a }} from both sides:</p>
+                                <p>{{a}} + {{ b }}x = {{ c }}</p>
+                                <p>-({{ a }})&nbsp;&nbsp;&nbsp;&nbsp;-({{ a }})</p>
+                                <p>{{ b }}x = {{ c - a }}</p>
+                            </div>
+
+                            <div class="step2">
+                                <p>Step 2: Divide by {{ b }}: x = ({{ c - a }}) / {{ b }}</p>
+                                <p>x = ({{ c - a }}) / {{ b }}</p>
+                                <p>Result: x = {{ correct }}</p>
+                            </div>
+
+
                         </div>
                     </li>
                 {% elif question|length == 6 %}
@@ -204,13 +299,84 @@ window.onload = initConfetti;
 
                         <p>Correct answer: x = {{ correct }}</p>
                         <button class="explain-btn" onclick="toggleExplanation(this)">Show Explanation</button>
-                        <div class="explanation" style="display: none;">
-                            <p>Explanation: To solve this equation, use the quadratic formula: x = (-B ± sqrt(B^2 - 4AC)) / 2A</p>
-                            <p>Step 1: Identify the coefficients: A = {{ c }}, B = {{ b }}, C = {{ a - d }}</p>
-                            <p>Step 2: Calculate the discriminant: Δ = B^2 - 4AC</p>
-                            <p>Step 3: Find the two possible values for x using the quadratic formula</p>
-                            <p>Result: x = {{ correct }}</p>
-                        </div>
+                       <div class="explanation" style="display: none;">
+                                <p>Explanation: To solve this linear equation, follow these steps:</p>
+                                <p>{{ a }}(x + {{ b }}) + {{ c }}(x - {{ d }}) = {{ eq_value }}</p>
+                           <div class="step1">
+                                    <p>Step 1: Distribute the numbers across the parentheses.</p>
+                                    <p>{{ a }} * x + {{ a }} * ({{ b }}) + {{ c }} * x + {{ c }} * (-{{ d }}) = {{ eq_value }}</p>
+                                    <p>First {{ a }} * x = {{ a }}x</p>
+                                    <p>Then {{ a }} * {{ b }} = {{ a*b }}</p>
+                                    <p>Then {{ c }} * x = {{ c }}x</p>
+                                   <p>Then {{ c }} * {{ d }} = {{ c*d }}</p>
+                                   <p>Now put these values back into the equation:</p>
+                                    <p>{{ a }}x + {{ a*b }} + {{ c }}x - {{ c*d }} = {{ eq_value }}</p>
+                                </div>
+                                <div class="step2">
+                                    <p>Step 2: Combine the like terms (x terms and constants).</p>
+                                    <p>First, combine the x terms:</p>
+                                    <p>{{-a}}x + {{c}}x = {{-a+c}}x</p>
+                                    <p>Then, combine the constant terms:</p>
+                                    <p>{{a*b}} + ({{-c*d}}) = {{a*b- c*d}}</p>
+                                    <p>Now put these values back into the equation:</p>
+                                    <p>{{-a+c}}x + {{a*b-c*d}} = {{eq_value}}</p>
+                                </div>
+                                <div class="step3">
+                                  <p>Step 3: Subtract the constant from both sides of the equation to isolate the x term.</p>
+                                  <p>First, subtract {{ a*b-c*d }} from both sides:</p>
+                                   <p>{{-a+c}}x + {{a*b-c*d}} = {{eq_value}}</p>
+                                    <p>- {{a*b-c*d}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-{{a*b-c*d}}<p>
+                                  <p>{{-a+c}}x = {{ eq_value - (a*b-c*d) }}</p>
+                                  <p>Now simplify:</p>
+                                  <p>{{-a+c}}x = {{ eq_value + (c*d-a*b) }}</p>
+                                </div>
+                                <div class="step4">
+                                  <p>Step 4: Divide both sides of the equation by the coefficient of x to solve for x.</p>
+                                  <p>First, divide both sides by &nbsp;{{-a+c}}:</p>
+                                    <p>{{-a+c}}x = {{ eq_value + (c*d-a*b) }}</p>
+                                    <p> {{-a+c}}&nbsp;&nbsp;&nbsp;&nbsp;{{-a+c}}</p>
+
+                                  <p>Once you do that, you have the x value!:</p>
+                                  <p>x = {{ correct }}</p>
+                                </div>
+                       </div>
+<!--                      <div class="step1">-->
+<!--                                    <p>Step 1: Distribute the numbers across the parentheses.</p>-->
+<!--                                    <p>{{ a }} * x + {{ a }} * ({{ b }}) + {{ c }} * x + {{ c }} * (-{{ d }}) = {{ eq_value }}</p>-->
+<!--                                    <p>First {{ a }} * x = {{ a }}x</p>-->
+<!--                                    <p>Then {{ a }} * {{ b }} = {{ a*b }}</p>-->
+<!--                                    <p>Then {{ c }} * x = {{ c }}x</p>-->
+<!--                                   <p>Then {{ c }} * {{ d }} = {{ c*d }}</p>-->
+<!--                                   <p>Now put these values back into the equation:</p>-->
+<!--                                    <p>{{ a }}x + {{ a*b }} + {{ c }}x - {{ c*d }} = {{ eq_value }}</p>-->
+<!--                                </div>-->
+<!--                                <div class="step2">-->
+<!--                                    <p>Step 2: Combine the like terms (x terms and constants).</p>-->
+<!--                                    <p>First, combine the x terms:</p>-->
+<!--                                    <p>{{-a}}x + {{c}}x = {{-a+c}}x</p>-->
+<!--                                    <p>Then, combine the constant terms:</p>-->
+<!--                                    <p>{{a*b}} + ({{-c*d}}) = {{a*b- c*d}}</p>-->
+<!--                                    <p>Now put these values back into the equation:</p>-->
+<!--                                    <p>{{-a+c}}x + {{a*b-c*d}} = {{eq_value}}</p>-->
+<!--                                </div>-->
+<!--                                <div class="step3">-->
+<!--                                  <p>Step 3: Subtract the constant from both sides of the equation to isolate the x term.</p>-->
+<!--                                  <p>First, subtract {{ a*b-c*d }} from both sides:</p>-->
+<!--                                   <p>{{-a+c}}x + {{a*b-c*d}} = {{eq_value}}</p>-->
+<!--                                    <p>- {{a*b-c*d}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-{{a*b-c*d}}<p>-->
+<!--                                  <p>{{-a+c}}x = {{ eq_value - (a*b-c*d) }}</p>-->
+<!--                                  <p>Now simplify:</p>-->
+<!--                                  <p>{{-a+c}}x = {{ eq_value + (c*d-a*b) }}</p>-->
+<!--                                </div>-->
+<!--                                <div class="step4">-->
+<!--                                  <p>Step 4: Divide both sides of the equation by the coefficient of x to solve for x.</p>-->
+<!--                                  <p>First, divide both sides by &nbsp;{{-a+c}}:</p>-->
+<!--                                    <p>{{-a+c}}x = {{ eq_value + (c*d-a*b) }}</p>-->
+<!--                                    <p>- {{-a+c}}&nbsp;&nbsp;&nbsp;&nbsp;{{-a+c}}</p>-->
+
+<!--                                  <p>Once you do that, you have the x value!:</p>-->
+<!--                                  <p>x = {{ correct }}</p>-->
+<!--                                </div>-->
                     </li>
                 {% endif %}
             {% endfor %}
@@ -221,5 +387,3 @@ window.onload = initConfetti;
 </body>
 
 </html>
-
-
