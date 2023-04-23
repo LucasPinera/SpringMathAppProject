@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Math Quiz - Home</title>
+    <style>
+        @keyframes wave {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .letter {
+            display: inline-block;
+            font-size: 28px;
+            animation-name: wave;
+            animation-duration: 2s;
+            animation-timing-function: linear;
+            animation-iteration-count: 1;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-image: url('https://wallpaperaccess.com/full/237627.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            width: 70%;
+            max-width: 800px;
+            padding-top: 40px;
+        }
+        h1 {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 40px; /* Decrease font size */
+            margin: 0;
+            display: inline-block;
+            overflow: hidden;
+        }
+        .letter {
+            display: inline-block;
+            background-image: linear-gradient(45deg, #f06, #0af);
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: wave 2s infinite;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin-top: 20px;
+        }
+        select {
+            font-size: 18px;
+            padding: 5px;
+            margin-top: 10px;
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-50%); /* Make the wave effect smaller */
+            }
+
+<!--        for the explanation-->
+        .difficulty-description {
+            display: none;
+        }
+
+        .difficulty-description.active {
+            display: block;
+        }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <span class="letter" style="animation-delay: 0s;">W</span>
+            <span class="letter" style="animation-delay: 0.1s;">e</span>
+            <span class="letter" style="animation-delay: 0.2s;">l</span>
+            <span class="letter" style="animation-delay: 0.3s;">c</span>
+            <span class="letter" style="animation-delay: 0.4s;">o</span>
+            <span class="letter" style="animation-delay: 0.5s;">m</span>
+            <span class="letter" style="animation-delay: 0.6s;">e</span>
+            <span class="letter" style="animation-delay: 0.7s;">&nbsp;</span>
+            <span class="letter" style="animation-delay: 0.8s;">t</span>
+            <span class="letter" style="animation-delay: 0.9s;">o</span>
+            <span class="letter" style="animation-delay: 1.0s;">&nbsp;</span>
+            <span class="letter" style="animation-delay: 1.1s;">t</span>
+            <span class="letter" style="animation-delay: 1.2s;">h</span>
+            <span class="letter" style="animation-delay: 1.3s;">e</span>
+            <span class="letter" style="animation-delay: 1.4s;">&nbsp;</span>
+            <span class="letter" style="animation-delay: 1.5s;">M</span>
+            <span class="letter" style="animation-delay: 1.6s;">a</span>
+            <span class="letter" style="animation-delay: 1.7s;">t</span>
+            <span class="letter" style="animation-delay: 1.8s;">h</span>
+            <span class="letter" style="animation-delay: 1.9s;">&nbsp;</span>
+            <span class="letter" style="animation-delay: 2.0s;">Q</span>
+            <span class="letter" style="animation-delay: 2.1s;">u</span>
+            <span class="letter" style="animation-delay: 2.2s;">i</span>
+            <span class="letter" style="animation-delay: 2.3s;">z</span>
+        </h1>
+
+
+        <p>Test your math skills by solving 10 algebraic equations.</p>
+        <p>Select difficulty level:</p>
+        <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+
+        <div class="difficulty-description-container">
+            <div id="easy-description" class="difficulty-description active">
+                <h3>Easy Difficulty</h3>
+                <p>Questions with integers between 1 and 10.</p>
+            </div>
+            <div id="medium-description" class="difficulty-description">
+                <h3>Medium Difficulty</h3>
+                <p>Questions with integers between -10 and 10.</p>
+            </div>
+            <div id="hard-description" class="difficulty-description">
+                <h3>Hard Difficulty</h3>
+                <p>Questions with numbers (including decimals) between -10 and 10.</p>
+            </div>
+        </div>
+
+        <br>
+        <button>Start Quiz</button>
+    </div>
+<script>
+    document.getElementById("difficulty").addEventListener("change", function() {
+        const selectedDifficulty = this.value;
+        const easyDescription = document.getElementById("easy-description");
+        const mediumDescription = document.getElementById("medium-description");
+        const hardDescription = document.getElementById("hard-description");
+
+        if (selectedDifficulty === "easy") {
+            easyDescription.style.display = "block";
+            mediumDescription.style.display = "none";
+            hardDescription.style.display = "none";
+        } else if (selectedDifficulty === "medium") {
+            easyDescription.style.display = "none";
+            mediumDescription.style.display = "block";
+            hardDescription.style.display = "none"
+        } else {
+            easyDescription.style.display = "none";
+            mediumDescription.style.display = "none";
+            hardDescription.style.display = "block";
+        }
+    });
+
+    document.querySelector('button').addEventListener('click', function() {
+        const difficulty = document.getElementById('difficulty').value;
+        location.href = `/quiz?difficulty=${difficulty}`;
+    });
+</script>
+</body>
+</html>
